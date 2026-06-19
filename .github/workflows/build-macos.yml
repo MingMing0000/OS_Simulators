@@ -32,7 +32,7 @@ jobs:
         # --onefile: Packages everything into a single executable file.
         # --noconsole: Prevents a terminal window from opening (use only for GUI apps). Remove this flag if it is a command-line utility.
         # Change 'src/main.py' to your actual entry point path.
-        pyinstaller --onefile --noconsole src/main.py
+        pyinstaller --onefile --noconsole src/main_menu.py --name "OS Simulators"
 
     - name: Compress Build Artifact
       run: |
