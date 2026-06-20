@@ -38,7 +38,7 @@ jobs:
       run: |
         # Zipping preserves execution permissions on macOS
         cd dist
-        zip -r ../macos-executable.zip . -i main
+        zip -r ../macos-executable.zip . -i OS Simulators
         # Note: If your entry point is main.py, the output binary is named 'main' by default.
         # To rename it, add `--name "MyApp"` to the pyinstaller command above.
 
