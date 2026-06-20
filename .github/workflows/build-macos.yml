@@ -32,13 +32,13 @@ jobs:
         # --onefile: Packages everything into a single executable file.
         # --noconsole: Prevents a terminal window from opening (use only for GUI apps). Remove this flag if it is a command-line utility.
         # Change 'src/main.py' to your actual entry point path.
-        pyinstaller --onefile --noconsole src/main_menu.py --name "OS Simulators"
+        pyinstaller --onefile --noconsole src/main_menu.py 
 
     - name: Compress Build Artifact
       run: |
         # Zipping preserves execution permissions on macOS
         cd dist
-        zip -r ../macos-executable.zip . -i OS Simulators
+        zip -r ../macos-executable.zip . -i main_menu
         # Note: If your entry point is main.py, the output binary is named 'main' by default.
         # To rename it, add `--name "MyApp"` to the pyinstaller command above.
 
