@@ -1,11 +1,11 @@
-name: Build macOS Executable
+name: Build macOS GUI App
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  workflow_dispatch: # Allows you to manually trigger the build from the GitHub UI
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,33 +18,29 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11' # Choose the Python version you want to target
+        python-version: '3.11'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        # Ensure PyInstaller is installed even if not in requirements.txt
         pip install pyinstaller
 
-    - name: Build with PyInstaller
+    - name: Build with PyInstaller (GUI / Windowed Mode)
       run: |
-        # --onefile: Packages everything into a single executable file.
-        # --noconsole: Prevents a terminal window from opening (use only for GUI apps). Remove this flag if it is a command-line utility.
-        # Change 'src/main.py' to your actual entry point path.
-        pyinstaller --windowed --onefile --noconsole src/main_menu.py 
+        # --windowed: Creates a macOS .app bundle and disables the console window
+        # Replace 'app.py' with the name of your main python file
+        pyinstaller --onefile --windowed src/main_menu.py
 
-    - name: Compress Build Artifact
+    - name: Compress App Bundle
       run: |
-        # Zipping preserves execution permissions on macOS
         cd dist
-        zip -r ../macos-executable.zip . -i main_menu
-        # Note: If your entry point is main.py, the output binary is named 'main' by default.
-        # To rename it, add `--name "MyApp"` to the pyinstaller command above.
+        # Zips the .app bundle to preserve macOS file permissions
+        zip -r ../macos-app.zip *.app
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: macos-app
-        path: macos-executable.zip
+        name: macos-gui-app
+        path: macos-app.zip
         retention-days: 5
